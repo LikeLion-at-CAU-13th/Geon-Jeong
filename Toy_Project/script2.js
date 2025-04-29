@@ -105,7 +105,7 @@
 
 // 서버 주소 => http://13.125.150.49:8000/
 const WRITE_URL = 'http://13.125.150.49:8000/post/';
-const READ_URL = 'http://13.125.150.49:8000/guestbook/';
+const READ_URL = 'http://13.125.150.49:8000/post/';
 const DELETE_URL = 'http://13.125.150.49:8000/post/';
 
 const guestbook = document.getElementById("guestbook");
@@ -151,7 +151,6 @@ submitBtn.addEventListener("click", async () => {
       const result = await response.json();
 
       if (result.status === 200) {
-        alert("방명록 작성 성공!");
         inputTitle.value = "";
         inputName.value = "";
         inputContent.value = "";
@@ -173,11 +172,14 @@ submitBtn.addEventListener("click", async () => {
 // 방명록 가져오기
 async function fetchGuestbook() {
   try {
+    console.log("CheckPoint");
     const response = await fetch(READ_URL, {
       method: "GET"
     });
+    console.log(response);
 
     const result = await response.json();
+    console.log(result);
 
     if (result.status === 200) {
       renderGuestbook(result.data);
@@ -266,32 +268,36 @@ function renderGuestbook(entries) {
 // 방명록 삭제하기
 async function deleteGuestbook(id, password) {
   try {
-    const response = await fetch(DELETE_URL, {
+    const response = await fetch(`${DELETE_URL}${id}/`, { // ✅ id를 URL에 추가
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        id: id,
-        password: password
-      })
+      body: JSON.stringify({ password }), // ✅ body에는 비번만
     });
 
     const result = await response.json();
 
-    if (result.status === 200) {
+    if (response.ok && result.status === 200) {
       alert("삭제 성공!");
-      fetchGuestbook();
+      fetchGuestbook(); // 삭제 후 목록 다시 불러오기
     } else if (result.status === 404) {
       alert("비밀번호가 틀렸습니다!");
     } else {
-      alert("삭제 실패: " + result.message);
+      alert("삭제 실패: " + (result.message || "서버 오류"));
     }
   } catch (error) {
-    console.error("삭제 오류:", error);
+    console.error("삭제 요청 에러:", error);
     alert("서버 통신 실패");
   }
 }
+
+// function fetchTest() {
+//   fetch("http://52.79.131.217:8000/guestbook/")
+//     .then(res => res.json())
+//     .then(data => console.log("성공:", data))
+//     .catch(err => console.error("에러 발생:", err));
+// }
 
 // 페이지 로딩되자마자 방명록 불러오기
 fetchGuestbook();
