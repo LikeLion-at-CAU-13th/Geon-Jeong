@@ -51,6 +51,15 @@ async function getData() {
         const button = document.createElement('button');
         button.innerText = "더보기";
         list.appendChild(button);
+
+        button.addEventListener("click", () => {
+          localStorage.setItem("selectedData", JSON.stringify(data));
+          window.location.href = "detail.html";
+        });
+        list.appendChild(image);
+        list.appendChild(info);
+        list.appendChild(button);
+        container.appendChild(list);
     });
 
     // 과제1) 다음 불러오기 버튼에서 새로운 count가 부여된 곳의 사진들을 불러오기 위한 count 랜덤 설정
