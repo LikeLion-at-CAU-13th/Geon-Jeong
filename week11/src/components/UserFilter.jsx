@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { filterType } from '../constants/filterType'
-import { getGenderUser, getPerPage } from '../apis/userlist'
+import { getGenderUser, getPartUser, getPerPage } from '../apis/userlist'
 
 const UserFilter = ({setFilter, setUserData, setCurPage}) => {
   const handleClick = async(type, param) => {
@@ -17,6 +17,14 @@ const UserFilter = ({setFilter, setUserData, setCurPage}) => {
       setUserData(response);
       setCurPage(1);
     }
+    // 필수과제1
+    else if (type === "part"){
+      const response = await getPartUser(param);
+      console.log(response);
+      setUserData(response);
+      setCurPage(1);
+    }
+    
     setFilter(param);
   }
   return (
