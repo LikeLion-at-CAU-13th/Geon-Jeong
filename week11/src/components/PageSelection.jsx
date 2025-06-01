@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { getPerPage } from '../apis/userlist.js';
 
@@ -35,6 +34,6 @@ const PageBox = styled.div`
     color: ${(props) => props.$active ? "#000000" : "#C9C9C9"};
     &:hover{
         cursor: pointer;
-        color: white;
+        color: #C9C9C9;
     }
 `
