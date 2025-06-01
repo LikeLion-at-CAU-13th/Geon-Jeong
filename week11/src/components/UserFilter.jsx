@@ -4,8 +4,9 @@ import { filterType } from '../constants/filterType'
 import { getGenderUser, getPartUser, getPerPage } from '../apis/userlist'
 
 const UserFilter = ({setFilter, setUserData, setCurPage}) => {
-  // 과제2
+  // 필수 과제 2
   const [clicked, setClicked] = useState(null);
+  // 필수 과제 3
 
   const handleClick = async(type, param) => {
     if(type === "all"){
@@ -19,8 +20,6 @@ const UserFilter = ({setFilter, setUserData, setCurPage}) => {
       console.log(response);
       setUserData(response);
       setCurPage(1);
-
-      setClicked(1);
     }
     // 필수과제1
     else if (type === "part"){
@@ -29,10 +28,10 @@ const UserFilter = ({setFilter, setUserData, setCurPage}) => {
       setUserData(response);
       setCurPage(1);
     }
-    
     setFilter(param);
     setClicked(param);
   }
+
   return (
     <FilterLayout>
       {filterType.map((data, idx) => 
