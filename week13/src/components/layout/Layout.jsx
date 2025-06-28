@@ -3,7 +3,7 @@ import { ThemeColorContext } from '../../context/context';
 import { useContext, useState } from 'react';
 import { Button } from './common';
 import { useRecoilValue } from 'recoil';
-import { emailAtom, isSubmittedAtom, userNameAtom } from '../../recoil/atom';
+import { emailAtom, genderAtom, isSubmittedAtom, userNameAtom } from '../../recoil/atom';
 
 const Layout = ({children}) => {
 	const context = useContext(ThemeColorContext);
@@ -12,6 +12,8 @@ const Layout = ({children}) => {
 
 	const userName = useRecoilValue(userNameAtom);
 	const email = useRecoilValue(emailAtom);
+    // 과제1
+    const gender = useRecoilValue(genderAtom);
 
 	const handleMode = (e) => {
 		const value = e.target.value;
@@ -34,7 +36,7 @@ const Layout = ({children}) => {
 				</Header>
 				<div>{children}</div>
 				<Footer mode={mode.main}>
-					{isSubmitted ? `${userName}의 공간! | ${email}` : "2025 LIKELION"}
+					{isSubmitted ? `${userName}(${gender})의 공간! | ${email}` : "2025 LIKELION"}
 				</Footer>
 			</Wrapper>
 		</ThemeColorContext.Provider>
