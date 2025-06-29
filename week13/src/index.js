@@ -5,13 +5,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+import { ModalProvider } from './context/context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <RecoilRoot>
         <BrowserRouter>
             <React.StrictMode>
-                <App />
+                <ModalProvider>
+                    <App />
+                </ModalProvider>
             </React.StrictMode>
         </BrowserRouter>
     </RecoilRoot>

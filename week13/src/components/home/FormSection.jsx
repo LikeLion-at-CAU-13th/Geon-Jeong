@@ -1,20 +1,25 @@
 import { useContext } from 'react';
-import { ThemeColorContext } from '../../context/context';
+import { ModalContext, ThemeColorContext } from '../../context/context';
 import { Button, Wrapper } from '../layout/common';
 import Form from './Form';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { isSubmittedAtom } from '../../recoil/atom';
+import Modal from './Modal';
 
 const FormSection = () => {
 	const mode = useContext(ThemeColorContext);
 
-	const navigate = useNavigate();
-	const setItSubmitted = useSetRecoilState(isSubmittedAtom);
+	//const navigate = useNavigate();
+	//const setItSubmitted = useSetRecoilState(isSubmittedAtom);
+
+    // 과제2
+    const { openModal } = useContext(ModalContext);
 
 	const handleBtn = () => {
-		setItSubmitted(true);
-		navigate("/mypage");
+		//setItSubmitted(true);
+        openModal();
+		//navigate("/mypage");
 	}
 	return (
 		<Wrapper>
@@ -25,6 +30,7 @@ const FormSection = () => {
 			<Button mode={mode.button} onClick={handleBtn}>
 				제출
 			</Button>
+            <Modal />
 		</Wrapper>
 	);
 };
