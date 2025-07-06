@@ -20,7 +20,7 @@ const Mypage = () => {
         // console.log(localStorage.getItem("access"));
     })
     .catch((error) => {
-        // 과제1) 토큰이 만료되었을 경우 로그인 페이지로!
+        // 과제4) 토큰이 만료되었을 경우 자동 로그아웃 후 로그인 페이지로 이동!
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
         navigate("/");

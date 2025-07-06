@@ -2,26 +2,29 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { signup } from '../apis/user';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from '../hooks/useForm';
 
 const SignUp = () => {
-    const [id, setId] = useState("");
-    const [pw, setPw] = useState("");
-    const [name, setName] = useState("");
-    const [age, setAge] = useState(0);
+    // 과제 2)
+    
+    //const [id, setId] = useState("");
+    //const onChangeId = (e) => { setId(e.target.value); }
+    const [id, onChangeId] = useForm();
+
+    //const [pw, setPw] = useState("");
+    //const onChangePw = (e) => { setPw(e.target.value); }
+    const [pw, onChangePw] = useForm();
+    
+    //const [name, setName] = useState("");
+    //const onChangeName = (e) => { setName(e.target.value); }
+    const [name, onChangeName] = useForm();
+
+    //const [age, setAge] = useState(0);
+    //const onChangeAge = (e) => { setAge(e.target.value); }
+    const [age, onChangeAge] = useForm();
+    
     const navigate = useNavigate();
 
-    const onChangeId = (e) => {
-        setId(e.target.value);
-    }
-    const onChangePw = (e) => {
-        setPw(e.target.value);
-    }
-    const onChangeName = (e) => {
-        setName(e.target.value);
-    }
-    const onChangeAge = (e) => {
-        setAge(e.target.value);
-    }
 
     const onClick = async () => {
         await signup(id, pw, name, age);
