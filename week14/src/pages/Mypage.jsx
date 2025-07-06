@@ -8,6 +8,14 @@ const Mypage = () => {
     const [data, setData] = useState();
     const [loading, setLoading] = useState(true);
 
+    // 과제3) 로그아웃버튼
+    const onClick = () => {
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+        alert("로그아웃 되었습니다. 메인페이지로 이동합니다.");
+        navigate("/");
+    }
+
     // 과제1) token 만료 시 login페이지로 리렌더링을 위한 Navigate
     const navigate = useNavigate();
 
@@ -29,13 +37,16 @@ const Mypage = () => {
 
 // 예외 처리가 중요함. -> 초반 페이지 로딩 시 초기화 값이 없을 때, 에러를 방지해줌.
 if(loading) return <div>로딩중...</div>
-
     return (
         <>
             <Wrapper>
                 <Title>My page</Title>
                 <div>이름 : {data.name} </div>
                 <div>나이 : {data.age} </div>
+
+                <BtnWrapper>
+                    <button onClick={onClick}>로그아웃</button>
+                </BtnWrapper>
             </Wrapper>
         </>
     );
@@ -68,4 +79,32 @@ const Title = styled.div`
   font-style: normal;
   font-weight: 800;
   line-height: normal;
+`;
+
+const BtnWrapper = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5rem;
+  button {
+    font-weight: 800;
+    background-color: #89cdf6;
+    color: white;
+    padding: 19px;
+    border-radius: 10px;
+    border: none;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    &:hover {
+      box-shadow: 0 0 3px 3px skyblue;
+      color: black;
+      background-color: white;
+    }
+  }
 `;

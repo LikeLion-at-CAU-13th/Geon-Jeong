@@ -101,7 +101,7 @@ const TextWrap = styled.div`
   width: 80%;
 `;
 
-const BtnWrapper = styled.div`
+export const BtnWrapper = styled.div`
   height: 100%;
   width: 85%;
   display: flex;
