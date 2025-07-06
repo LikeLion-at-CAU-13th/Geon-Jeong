@@ -2,6 +2,7 @@ import axios from "axios";
 import { getAuthAxios } from "./authAxios";
 
 const baseURL = `https://likelion-cau.r-e.kr`;
+
 //export를 해야 함수 내에서도 컴포넌트를 불러올 수 있다
 export const signup = async (id, pw, name, age) => {
     const result = await axios.post(`${baseURL}/accounts/signup/`, {
@@ -58,11 +59,20 @@ export const login = async (id, pw) => {
 //    }
 //};
 
-export const getMyPage = (token) => {
-    const authAxios = getAuthAxios(token);
-    const result = authAxios.get("/accounts/mypage");
-    return result;
+export const getMyPage = async (token) => {
+    // 과제1) token이 잘못되었을 경우 다시 로그인 페이지로 갈 수 있도록 try-catch 구문
+    try {
+        const authAxios = getAuthAxios(token);
+        const result = await authAxios.get("/accounts/mypage");
+        // 잘나오는지 디버깅용 출력
+        //console.log(result);
+        return result;
+    } catch (error){
+        throw error;
+    }
+
 };
+
 
 export const getNewRefreshToken = async () => {
     try {
@@ -82,6 +92,6 @@ export const getNewRefreshToken = async () => {
         )
             return result.data;
     } catch (error) {
-        alert("토큰이 만료되었습니다. 다시 로그인 해주세요.")
+        alert("토큰이 만료되었습니다. 다시 로그인 하세요.");
     }
 }

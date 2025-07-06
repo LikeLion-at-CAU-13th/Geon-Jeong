@@ -1,7 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useForm } from '../hooks/useForm';
-import { login } from '../apis/user';
+import { getMyPage, login } from '../apis/user';
+import { useEffect } from 'react';
 
 const Home = () => {
     const [id, onChangeId] = useForm("");
@@ -10,16 +11,45 @@ const Home = () => {
     const navigate = useNavigate();
 
     const onClick = async () => {
-    try {
-        const result = await login(id, pw);
-        localStorage.setItem("access", result.accessToken);
-        localStorage.setItem("refresh", result.refreshToken);
-        navigate("/mypage");
-    } catch (error) {
-        alert("id나 pw를 확인하세요");
+        try {
+            const result = await login(id, pw);
+            localStorage.setItem("access", result.accessToken);
+            localStorage.setItem("refresh", result.refreshToken);
+            navigate("/mypage");
+        } catch (error) {
+            alert("id나 pw를 확인하세요");
+        };  
     };
-        
-    };
+
+// 과제1) token정보가 존재한다면 mypage로!
+useEffect(() => {
+    const checkLogin = async () => {
+        const token = localStorage.getItem("access");
+        if (!token) return;
+
+        try {
+        await getMyPage(token);  // 토큰 유효성 검사
+            navigate("/mypage");
+        } catch (error) {
+            // 만료된 token 삭제
+            localStorage.removeItem("access");
+            localStorage.removeItem("refresh");
+        }
+  };
+  checkLogin();
+}, []);
+
+
+
+
+//useEffect(() => {
+//    const token = localStorage.getItem("access");
+//    if (token) {
+//        navigate("/mypage");
+//    }
+//}, []);
+
+
     return (
         <>
             <Wrapper>
