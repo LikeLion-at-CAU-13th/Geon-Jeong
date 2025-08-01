@@ -1,0 +1,26 @@
+div {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.likeButton {
+    margin-right: 10px;
+}
+
+button {
+    width: 140px;
+    height: 80px;
+    border-radius: 40px;
+    background-color: #1EA4FF;
+    color: white;
+    font-size: large;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #0064CD;
+  }
+}
