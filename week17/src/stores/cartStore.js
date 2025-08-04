@@ -52,6 +52,24 @@ const useCartStore = create(
           ),
         })),
 
+      // 과제1: 모든 아이템 체크/해제 토글 함수
+      toggleAllItems: () =>
+        set((state) => {
+          const allChecked = state.cartItems.every((item) => item.checked);
+          return {
+            cartItems: state.cartItems.map((item) => ({
+              ...item,
+              checked: !allChecked,
+            })),
+          };
+        }),
+
+      // 과제1: 모든 아이템이 체크되었는지 확인하는 함수
+      areAllItemsChecked: () => {
+        const state = get();
+        return state.cartItems.length > 0 && state.cartItems.every((item) => item.checked);
+      },
+
       applyDiscount: async (code) => {
         set((state) => ({ ...state, loading: true }));
         await new Promise((resolve) => setTimeout(resolve, 1000));
