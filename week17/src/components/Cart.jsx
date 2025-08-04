@@ -17,6 +17,9 @@ const Cart = () => {
         // 과제1: 모든 아이템 체크/해제 관련 함수들
         toggleAllItems,
         areAllItemsChecked,
+        // 과제2: 상품 가격순 정렬 관련 함수들
+        sortItemsByPrice,
+        sortItemsByPriceDesc,
     } = useCartStore();
 
     const [discountCode, setDiscountCode] = useState('');
@@ -61,6 +64,15 @@ const Cart = () => {
                             전체 선택({cartItems.filter(item => item.checked).length}/{cartItems.length})
                         </SelectAllLabel>
                     </SelectAllContainer>
+                    {/* 과제2: 상품 가격순 정렬 버튼들 */}
+                    <SortContainer>
+                        <SortButton onClick={sortItemsByPrice}>
+                            가격 낮은순
+                        </SortButton>
+                        <SortButton onClick={sortItemsByPriceDesc}>
+                            가격 높은순
+                        </SortButton>
+                    </SortContainer>
                     <CartList>
                         {cartItems.map((item) => (
                         <CartItem key={item.id}>
@@ -271,4 +283,25 @@ const SelectAllCheckbox = styled.input`
 const SelectAllLabel = styled.label`
   font-size: 0.9rem;
   color: #333;
+`;
+
+const SortContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+`;
+
+const SortButton = styled.button`
+  padding: 8px 16px;
+  background-color: #e0e0e0;
+  color: #333;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+
+  &:hover {
+    background-color: #d0d0d0;
+  }
 `;

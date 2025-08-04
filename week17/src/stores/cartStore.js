@@ -70,6 +70,18 @@ const useCartStore = create(
         return state.cartItems.length > 0 && state.cartItems.every((item) => item.checked);
       },
 
+      // 과제2: 상품 가격순 정렬 함수 (오름차순)
+      sortItemsByPrice: () =>
+        set((state) => ({
+          cartItems: [...state.cartItems].sort((a, b) => a.price - b.price),
+        })),
+
+      // 과제2: 상품 가격순 정렬 함수 (내림차순)
+      sortItemsByPriceDesc: () =>
+        set((state) => ({
+          cartItems: [...state.cartItems].sort((a, b) => b.price - a.price),
+        })),
+
       applyDiscount: async (code) => {
         set((state) => ({ ...state, loading: true }));
         await new Promise((resolve) => setTimeout(resolve, 1000));
