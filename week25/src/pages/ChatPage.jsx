@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import ChatMessage from "../components/ChatMessage";
 import ChatInput from "../components/ChatInput";
 import Loader from "../components/Loader.jsx";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+//import { GoogleGenerativeAI } from "@google/generative-ai";
 import { motion } from "framer-motion";
 
 const ChatPage = () => {
@@ -13,8 +13,27 @@ const ChatPage = () => {
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
 
+
+    /** GoogleGenerativeAI 라이브러리를 활용한 API 호출 방법 
     const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY); // 라이브러리를 활용하여 간단하게 함수형식으로 사용하기 위함
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro"}); // genAI를 통해 사용할 기능이 있는 모델을 선언
+    */
+
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`;
+    async function generateContent(prompt) {
+        console.log("Prompt sent:", prompt); // Added for debugging
+        
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+            contents: [{ role: "user", parts: [{ text: prompt }] }]
+            }),
+        });
+        const data = await response.json();
+        return data.candidates?.[0]?.content?.parts?.[0]?.text ?? "응답 없음";
+    }
+
 
     const handleSend = async () => {
         if (!input.trim()) return;
@@ -24,9 +43,10 @@ const ChatPage = () => {
         setLoading(true);
 
         try {
-            const result = await model.generateContent(input);
-            const text = result.response?.text() ?? "응답이 없습니다."
-            const aiMsg = { role: "assistant", content: text};
+            //const result = await model.generateContent(input);
+            const result = await generateContent(input);
+            //const text = result.response?.text() ?? "응답이 없습니다."
+            const aiMsg = { role: "assistant", content: result};
             setMessages((prev) => [...prev, aiMsg]);
         } catch(err) {
             console.error(err);
