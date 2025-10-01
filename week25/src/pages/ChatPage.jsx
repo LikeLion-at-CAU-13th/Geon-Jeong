@@ -19,7 +19,8 @@ const ChatPage = () => {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro"}); // genAI를 통해 사용할 기능이 있는 모델을 선언
     */
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`;
+    /** 과제 내용 */
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`;
     async function generateContent(prompt) {
         console.log("Prompt sent:", prompt); // Added for debugging
         
@@ -43,8 +44,11 @@ const ChatPage = () => {
         setLoading(true);
 
         try {
+            /** 수업 내용 */
             //const result = await model.generateContent(input);
+            /** 과제 내용 */
             const result = await generateContent(input);
+
             //const text = result.response?.text() ?? "응답이 없습니다."
             const aiMsg = { role: "assistant", content: result};
             setMessages((prev) => [...prev, aiMsg]);
