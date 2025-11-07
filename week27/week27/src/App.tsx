@@ -2,10 +2,18 @@ import { useState } from 'react';
 import { useMovieSearch } from './hooks/useMovieSearch';
 import MovieCard from './components/MovieCard';
 import styled from 'styled-components';
+import SortButtons from './components/SortButton';
+import { type SortOption } from './types/movie.types.ts';
+import { sortMovies } from '../utils/sortMovies';
 
 function App() {
     const [searchQuery, setSearchQuery] = useState<string>('');
     const {movies, status, error} = useMovieSearch(searchQuery);
+    const [sortOption, setSortOption] = useState<SortOption>('rating');
+
+  const handleSortChange = (option: SortOption) => {
+    setSortOption(option);
+  };
     
   // 과제에서 사용
   const handleMovieSelect = (id: number): void => {
@@ -16,6 +24,8 @@ function App() {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   }
+
+  const sortedMovies = sortMovies(movies, sortOption);
 
   return (
     <Homepage>
@@ -61,8 +71,9 @@ function App() {
                         <div>
                             <Result> 총 {movies.length}개의 영화를 찾았습니다.</Result>
                         </div>
+                        <SortButtons currentSort={sortOption} onSortChange={handleSortChange} />
                         <MovieGrid>
-                            {movies.map(movie => (
+                            {sortedMovies.map(movie => (
                                 <MovieCard
                                     key={movie.id}
                                     movie={movie}
